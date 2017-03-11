@@ -3,15 +3,38 @@ import java.io.*;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.lang.reflect.*;
     class Restart extends Event {
-	private Controller controller;
+	private GreenhouseControls controller;
 	private String eventsFile = "examples1.txt";
-        public Restart(long delayTime, String filename, Controller controller)
+        public Restart(long delayTime, String filename, GreenhouseControls controller)
         throws IOException{
             super(delayTime);
             eventsFile = filename;
 	    this.controller = controller;
         }
+
+	public Event createEvent(String in, long l){
+	
+   try{
+                        Class<?> thermo = Class.forName(in);
+                        Constructor<?> constructor = thermo.getConstructor(long.class);
+                       Object instance = constructor.newInstance(l);
+        		return (Event)instance;
+                }catch(ClassNotFoundException e) {
+                        System.out.println(e);
+                }catch(NoSuchMethodException e) {
+                        System.out.println(e);
+                }catch(InstantiationException e){
+                        System.out.println(e);
+                }catch(IllegalAccessException e){
+                        System.out.println(e);
+                }catch(InvocationTargetException e){
+                        System.out.println(e);
+                }
+	return null;
+}
+
 	public void run(){};
        //adds events
         public void action(){
@@ -34,34 +57,39 @@ import java.util.regex.Pattern;
                         matcher.find();
                         String inNum = matcher.group();
                         long dLay = Long.parseLong(inNum);
-                        controller.addEvent(new ThermostatNight(dLay));
-                    }
+	    		Event thermo = createEvent("ThermostatNight", dLay);
+//			Thread t = new Thread(thermo);
+//			t.start();
+			controller.addEvent(thermo);			
+	            }
                     //gets delay time from file for lightOn, converts
                     // string to long and adds it as parameter for lightOn delay
                     if(temp.contains("LightOn")){
                         matcher.find();
                         String inNum = matcher.group();
                         long dLay = Long.parseLong(inNum);
-                        controller.addEvent(new LightOn(dLay));
-                    }
+			Event lightOn = createEvent("LightOn", dLay);
+			controller.addEvent(lightOn);  
+ 		    }
                     //gets delay time from file for waterOff, converts
                     // string to long and adds it as parameter for waterOff delay
                     if(temp.contains("WaterOff")){
                         matcher.find();
                         String inNum = matcher.group();
                         long dLay = Long.parseLong(inNum);
-                        controller.addEvent(new WaterOff(dLay));
+                        Event waterOff = createEvent("WaterOff", dLay);
+                        controller.addEvent(waterOff);
                     }
-
-
                     //gets delay time from file for ThermostatDay, converts
                     // string to long and adds it as parameter for ThermostatDay delay
                     if(temp.contains("ThermostatDay")){
                         matcher.find();
                         String inNum = matcher.group();
                         long dLay = Long.parseLong(inNum);
-                        controller.addEvent(new ThermostatDay(dLay));
-                    }
+                   	Event thermoDay = createEvent("ThermostatDay", dLay);
+                        controller.addEvent(thermoDay);
+
+		    }
                     //gets delay time and number of rings from file for Bell, 
                     //converts strings to long and adds it as parameter for Bell 
                     //delay and number of rings
@@ -88,8 +116,9 @@ import java.util.regex.Pattern;
                         matcher.find();
                         String inNum = matcher.group();
                         long dLay = Long.parseLong(inNum);
-                        controller.addEvent(new WaterOn(dLay));
-                    }
+                	Event waterOn = createEvent("WaterOn", dLay);
+                        controller.addEvent(waterOn);   
+		    }
 
                     //gets delay time from file for LightOff, converts string
                     //to long and adds it as parameter for delayTime.
@@ -97,15 +126,17 @@ import java.util.regex.Pattern;
                         matcher.find();
                         String inNum = matcher.group();
                         long dLay = Long.parseLong(inNum);
-                        controller.addEvent(new LightOff(dLay));
-                    }
+                    	Event lightOff = createEvent("LightOff", dLay);
+                        controller.addEvent(lightOff);
+		    }
                     //gets delay time from file for Terminate, converts string
                     //to long and adds it as parameter for delayTime.
                     if(temp.contains("Terminate")){
                         matcher.find();
                         String inNum = matcher.group();
                         long dLay = Long.parseLong(inNum);
-                        controller.addEvent(new Terminate(dLay));
+			Event terminate = createEvent("Terminate", dLay);
+                        controller.addEvent(terminate);
                     }
                     //gets delay time from file for FansOn, converts string
                     //to long and adds it as parameter for delayTime.
@@ -113,7 +144,8 @@ import java.util.regex.Pattern;
                         matcher.find();
                         String inNum = matcher.group();
                         long dLay = Long.parseLong(inNum);
-                        controller.addEvent(new FansOn(dLay));
+			Event fansOn = createEvent("FansOn", dLay);
+                        controller.addEvent(fansOn);
                     }
                     //gets delay time from file for FansOff, converts string
                     //to long and adds it as parameter for delayTime.
@@ -121,8 +153,8 @@ import java.util.regex.Pattern;
                         matcher.find();
                         String inNum = matcher.group();
                         long dLay = Long.parseLong(inNum);
-               
-                        controller.addEvent(new FansOff(dLay));
+			Event fansOff = createEvent("FansOff", dLay);
+                        controller.addEvent(fansOff);
                     }
                 }//end while
                 sc.close();

@@ -23,6 +23,9 @@ import java.nio.*;
  **********************************************************************/
 
 public class GreenhouseControls extends Controller {
+    public List<Thread> threadList = new ArrayList<Thread>();
+    public void addThread(Thread c) {threadList.add(c);}
+
     private String eventsFile = "examples1.txt";
     private boolean powerOn = true;
     protected int errorCode = 0; 

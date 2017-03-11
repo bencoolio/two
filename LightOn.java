@@ -5,6 +5,8 @@ import tme3.*;
         public LightOn(long delayTime) {
             super(delayTime);
         }
+	public void run(){
+        };
         public void action() {
             // Put hardware control code here to
             // physically turn on the light.

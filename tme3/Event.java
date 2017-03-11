@@ -22,7 +22,7 @@ import java.io.Serializable;
 
 public abstract class Event implements Runnable{
     public long eventTime;
-    protected final long delayTime;
+    public final long delayTime;
     public Event(long delayTime) {
         this.delayTime = delayTime;
         start();

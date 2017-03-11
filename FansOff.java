@@ -5,6 +5,7 @@ import tme3.*;
         public FansOff(long delayTime) {
             super (delayTime);
         }
+	public void run(){};
         public void action() {
             fans = false;
         }

@@ -5,6 +5,7 @@ import tme3.*;
         public WaterOn(long delayTime) { 
             super(delayTime); 
         }
+	public void run(){};
         public void action() {
             // Put hardware control code here.
             water = true;
