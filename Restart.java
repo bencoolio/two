@@ -110,7 +110,7 @@ import java.lang.reflect.*;
 		    }
                     //gets delay time and number of rings from file for Bell, 
                     //converts strings to long and adds it as parameter for Bell 
-                    //delay and number of rings
+   /*                 //delay and number of rings
                     if(temp.contains("Bell")){
                         long dLay = 0;
                         long nRings = 0;
@@ -132,7 +132,7 @@ import java.lang.reflect.*;
 			b.start();
 			controller.addThread(b);
                     }
-                    //gets delay time from file for WaterOn, converts string
+     */               //gets delay time from file for WaterOn, converts string
                     // to long and adds it as parameter for delayTime.
                     if(temp.contains("WaterOn")){
                         matcher.find();
@@ -159,7 +159,7 @@ import java.lang.reflect.*;
 		    }
                     //gets delay time from file for Terminate, converts string
                     //to long and adds it as parameter for delayTime.
-                    if(temp.contains("Terminate")){
+/*                    if(temp.contains("Terminate")){
                         matcher.find();
                         String inNum = matcher.group();
                         long dLay = Long.parseLong(inNum);
@@ -169,7 +169,7 @@ import java.lang.reflect.*;
 			controller.addThread(t);     
 		//   controller.addEvent(terminate);
                     }
-                    //gets delay time from file for FansOn, converts string
+  */                  //gets delay time from file for FansOn, converts string
                     //to long and adds it as parameter for delayTime.
                     if(temp.contains("FansOn")){
                         matcher.find();

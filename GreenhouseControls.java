@@ -25,6 +25,17 @@ import java.nio.*;
 public class GreenhouseControls extends Controller {
     public List<Thread> threadList = new ArrayList<Thread>();
     public void addThread(Thread c) {threadList.add(c);}
+
+    public void what(){
+	while(threadList.size() > 0){
+	    for(Thread e : new ArrayList<Thread>(threadList)){
+		System.out.println(e);
+		threadList.remove(e);
+	    }
+	}
+    }
+    
+	
         
     private String eventsFile = "examples1.txt";
     private boolean powerOn = true;
@@ -166,6 +177,7 @@ public class GreenhouseControls extends Controller {
 
             try{ 
                 gc.run(0);
+		gc.what();
             }catch(ControllerException e){
                 System.out.println(e);
                 // writes the error thrown to the file 'error.log' and
