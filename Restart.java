@@ -14,12 +14,19 @@ import java.lang.reflect.*;
 	    this.controller = controller;
         }
 
-	public Event createEvent(String in, long l){
-	
-   try{
-                        Class<?> thermo = Class.forName(in);
-                        Constructor<?> constructor = thermo.getConstructor(long.class);
-                       Object instance = constructor.newInstance(l);
+	public Event createEvent(String in, long l, int l2, Controller c){
+		Constructor<?> constructor;
+		Object instance;
+  		try{
+                    Class<?> thermo = Class.forName(in);
+		    if(l2 == 0){
+                    	constructor = thermo.getConstructor(long.class);
+			instance = constructor.newInstance(l);
+		    }else{
+			constructor = thermo.getConstructor(long.class, int.class, Controller.class);
+                        instance = constructor.newInstance(l, l2, c);
+			 }
+
         		return (Event)instance;
                 }catch(ClassNotFoundException e) {
                         System.out.println(e);
@@ -32,8 +39,9 @@ import java.lang.reflect.*;
                 }catch(InvocationTargetException e){
                         System.out.println(e);
                 }
+	
 	return null;
-}
+	}
 
 	public void run(){};
        //adds events
@@ -57,19 +65,22 @@ import java.lang.reflect.*;
                         matcher.find();
                         String inNum = matcher.group();
                         long dLay = Long.parseLong(inNum);
-	    		Event thermo = createEvent("ThermostatNight", dLay);
-//			Thread t = new Thread(thermo);
-//			t.start();
-			controller.addEvent(thermo);			
-	            }
+	    		Event thermo = createEvent("ThermostatNight", dLay, 0, controller);
+			Thread t = new Thread(thermo);
+			t.start();
+                        controller.addThread(t);	  
+         	    }
                     //gets delay time from file for lightOn, converts
                     // string to long and adds it as parameter for lightOn delay
                     if(temp.contains("LightOn")){
                         matcher.find();
                         String inNum = matcher.group();
                         long dLay = Long.parseLong(inNum);
-			Event lightOn = createEvent("LightOn", dLay);
-			controller.addEvent(lightOn);  
+			Event lightOn = createEvent("LightOn", dLay, 0, controller);
+			Thread l = new Thread(lightOn);
+			l.start();
+			controller.addThread(l);
+		//	controller.addEvent(lightOn);  
  		    }
                     //gets delay time from file for waterOff, converts
                     // string to long and adds it as parameter for waterOff delay
@@ -77,8 +88,12 @@ import java.lang.reflect.*;
                         matcher.find();
                         String inNum = matcher.group();
                         long dLay = Long.parseLong(inNum);
-                        Event waterOff = createEvent("WaterOff", dLay);
-                        controller.addEvent(waterOff);
+                        Event waterOff = createEvent("WaterOff", dLay, 0, controller);
+                        Thread w = new Thread(waterOff);
+			w.start();
+			System.out.println(waterOff);
+			controller.addThread(w);
+		//	controller.addEvent(waterOff);
                     }
                     //gets delay time from file for ThermostatDay, converts
                     // string to long and adds it as parameter for ThermostatDay delay
@@ -86,8 +101,11 @@ import java.lang.reflect.*;
                         matcher.find();
                         String inNum = matcher.group();
                         long dLay = Long.parseLong(inNum);
-                   	Event thermoDay = createEvent("ThermostatDay", dLay);
-                        controller.addEvent(thermoDay);
+                   	Event thermoDay = createEvent("ThermostatDay", dLay, 0, controller);
+                    	Thread td = new Thread(thermoDay);
+			td.start();
+			controller.addThread(td);    
+		  //	controller.addEvent(thermoDay);
 
 		    }
                     //gets delay time and number of rings from file for Bell, 
@@ -108,7 +126,11 @@ import java.lang.reflect.*;
 
                         if(dLay == nRings)
                             nRings = 1;
-                        controller.addEvent(new Bell(dLay,(int)nRings, this.controller));
+//                        controller.addEvent(new Bell(dLay,(int)nRings, this.controller));
+			Event bell = createEvent("Bell",dLay, (int)nRings, this.controller);
+			Thread b = new Thread(bell);
+			b.start();
+			controller.addThread(b);
                     }
                     //gets delay time from file for WaterOn, converts string
                     // to long and adds it as parameter for delayTime.
@@ -116,8 +138,11 @@ import java.lang.reflect.*;
                         matcher.find();
                         String inNum = matcher.group();
                         long dLay = Long.parseLong(inNum);
-                	Event waterOn = createEvent("WaterOn", dLay);
-                        controller.addEvent(waterOn);   
+                	Event waterOn = createEvent("WaterOn", dLay,0, controller);
+                        Thread wo = new Thread(waterOn);
+			wo.start();
+			controller.addThread(wo);
+		// 	controller.addEvent(waterOn);   
 		    }
 
                     //gets delay time from file for LightOff, converts string
@@ -126,8 +151,11 @@ import java.lang.reflect.*;
                         matcher.find();
                         String inNum = matcher.group();
                         long dLay = Long.parseLong(inNum);
-                    	Event lightOff = createEvent("LightOff", dLay);
-                        controller.addEvent(lightOff);
+                    	Event lightOff = createEvent("LightOff", dLay,0, controller);
+                        //controller.addEvent(lightOff);
+		  	Thread lo = new Thread(lightOff);
+			lo.start();
+			controller.addThread(lo);
 		    }
                     //gets delay time from file for Terminate, converts string
                     //to long and adds it as parameter for delayTime.
@@ -135,8 +163,11 @@ import java.lang.reflect.*;
                         matcher.find();
                         String inNum = matcher.group();
                         long dLay = Long.parseLong(inNum);
-			Event terminate = createEvent("Terminate", dLay);
-                        controller.addEvent(terminate);
+			Event terminate = createEvent("Terminate", dLay,0, controller);
+                	Thread t = new Thread(terminate);
+			t.start();
+			controller.addThread(t);     
+		//   controller.addEvent(terminate);
                     }
                     //gets delay time from file for FansOn, converts string
                     //to long and adds it as parameter for delayTime.
@@ -144,8 +175,11 @@ import java.lang.reflect.*;
                         matcher.find();
                         String inNum = matcher.group();
                         long dLay = Long.parseLong(inNum);
-			Event fansOn = createEvent("FansOn", dLay);
-                        controller.addEvent(fansOn);
+			Event fansOn = createEvent("FansOn", dLay,0, controller);
+			Thread fo = new Thread(fansOn);	
+			fo.start();
+			controller.addThread(fo);
+                       // controller.addEvent(fansOn);
                     }
                     //gets delay time from file for FansOff, converts string
                     //to long and adds it as parameter for delayTime.
@@ -153,8 +187,11 @@ import java.lang.reflect.*;
                         matcher.find();
                         String inNum = matcher.group();
                         long dLay = Long.parseLong(inNum);
-			Event fansOff = createEvent("FansOff", dLay);
-                        controller.addEvent(fansOff);
+			Event fansOff = createEvent("FansOff", dLay,0, controller);
+                  	Thread fo = new Thread(fansOff);
+			fo.start();
+			controller.addThread(fo);
+		//	controller.addEvent(fansOff);
                     }
                 }//end while
                 sc.close();

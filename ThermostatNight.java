@@ -4,10 +4,11 @@ import tme3.*;
         public ThermostatNight(long delayTime) {
             super(delayTime);
         }
-public void run(){};
-//	public void start(){
-//	this.action();
-//	};
+public void run(){
+//	if(System.currentTimeMillis() >= this.eventTime;
+		System.out.println(this);
+		action();
+	}
         public void action() {
             // Put hardware control code here.
             thermostat = "Night";

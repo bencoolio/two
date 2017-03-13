@@ -5,7 +5,10 @@ class FansOn extends Event {
         public FansOn(long delayTime) {
             super(delayTime);
         }
-	public void run(){};	
+	public void run(){
+	System.out.println(this);
+	action();
+	}	
         public void action() {
             fans = true;
         }
