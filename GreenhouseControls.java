@@ -29,7 +29,8 @@ public class GreenhouseControls extends Controller {
     public void what(){
 	while(threadList.size() > 0){
 	    for(Thread e : new ArrayList<Thread>(threadList)){
-		System.out.println(e);
+		e.start();
+	//	System.out.println(e);
 		threadList.remove(e);
 	    }
 	}

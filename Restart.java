@@ -67,7 +67,7 @@ import java.lang.reflect.*;
                         long dLay = Long.parseLong(inNum);
 	    		Event thermo = createEvent("ThermostatNight", dLay, 0, controller);
 			Thread t = new Thread(thermo);
-			t.start();
+//			t.start();
                         controller.addThread(t);	  
          	    }
                     //gets delay time from file for lightOn, converts
@@ -78,7 +78,7 @@ import java.lang.reflect.*;
                         long dLay = Long.parseLong(inNum);
 			Event lightOn = createEvent("LightOn", dLay, 0, controller);
 			Thread l = new Thread(lightOn);
-			l.start();
+//			l.start();
 			controller.addThread(l);
 		//	controller.addEvent(lightOn);  
  		    }
@@ -90,7 +90,7 @@ import java.lang.reflect.*;
                         long dLay = Long.parseLong(inNum);
                         Event waterOff = createEvent("WaterOff", dLay, 0, controller);
                         Thread w = new Thread(waterOff);
-			w.start();
+//			w.start();
 			System.out.println(waterOff);
 			controller.addThread(w);
 		//	controller.addEvent(waterOff);
@@ -103,7 +103,7 @@ import java.lang.reflect.*;
                         long dLay = Long.parseLong(inNum);
                    	Event thermoDay = createEvent("ThermostatDay", dLay, 0, controller);
                     	Thread td = new Thread(thermoDay);
-			td.start();
+//			td.start();
 			controller.addThread(td);    
 		  //	controller.addEvent(thermoDay);
 
@@ -140,7 +140,7 @@ import java.lang.reflect.*;
                         long dLay = Long.parseLong(inNum);
                 	Event waterOn = createEvent("WaterOn", dLay,0, controller);
                         Thread wo = new Thread(waterOn);
-			wo.start();
+//			wo.start();
 			controller.addThread(wo);
 		// 	controller.addEvent(waterOn);   
 		    }
@@ -154,7 +154,7 @@ import java.lang.reflect.*;
                     	Event lightOff = createEvent("LightOff", dLay,0, controller);
                         //controller.addEvent(lightOff);
 		  	Thread lo = new Thread(lightOff);
-			lo.start();
+//			lo.start();
 			controller.addThread(lo);
 		    }
                     //gets delay time from file for Terminate, converts string
@@ -177,7 +177,7 @@ import java.lang.reflect.*;
                         long dLay = Long.parseLong(inNum);
 			Event fansOn = createEvent("FansOn", dLay,0, controller);
 			Thread fo = new Thread(fansOn);	
-			fo.start();
+//			fo.start();
 			controller.addThread(fo);
                        // controller.addEvent(fansOn);
                     }
@@ -189,7 +189,7 @@ import java.lang.reflect.*;
                         long dLay = Long.parseLong(inNum);
 			Event fansOff = createEvent("FansOff", dLay,0, controller);
                   	Thread fo = new Thread(fansOff);
-			fo.start();
+//			fo.start();
 			controller.addThread(fo);
 		//	controller.addEvent(fansOff);
                     }
