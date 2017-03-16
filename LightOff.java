@@ -2,11 +2,14 @@ import tme3.*;
 
     public class LightOff extends Event {
 	private boolean light = false;
+	private long dLay = 0;
         public LightOff(long delayTime) { 
             super(delayTime); 
+	    dLay = delayTime;
         }
 
 	public void run(){
+	sleepEvent(dLay);
 	System.out.println(this);
 	action();
 	}

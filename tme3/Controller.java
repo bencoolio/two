@@ -20,7 +20,7 @@ import java.io.Serializable;
 import java.io.*;
 public class Controller implements Serializable {
     // A class from java.util to hold Event objects:
-    private List<Event> eventList = new ArrayList<Event>();
+    public List<Event> eventList = new ArrayList<Event>();
     public void addEvent(Event c) { eventList.add(c); }
 
     /**
@@ -33,7 +33,7 @@ public class Controller implements Serializable {
      * @param elapsedTime  Long type passed to inner 'ready()' method.
      */
     public void run(long elapsedTime) throws ControllerException{
-        while(eventList.size() > 0){
+       while(eventList.size() > 0){
             // Make a copy so you're not modifying the list
             // while you're selecting the elements in it:
             for(Event e : new ArrayList<Event>(eventList)){
@@ -41,10 +41,10 @@ public class Controller implements Serializable {
                  //This code works to remove the malfunction event when 
                  //deserializing the object, but couldn't figure out
                  // how packaging worked to access these classes. 
-                 /* if(e instanceof WindowMalfunction
-                       || e instanceof PowerOut){
-			continue;
-                    }*/
+                 // if(e instanceof WindowMalfunction
+                  //     || e instanceof PowerOut){
+		//	continue;
+                   // }
                     System.out.println(e);
                     e.action();
                     eventList.remove(e);
@@ -54,7 +54,6 @@ public class Controller implements Serializable {
     }
 
     public void shutdown() {}
-
     // A custom exceptino class, thrown when the inner classes WindowMalfunction
     // and PowerOut, of GreenhouseControls, have their 'action()' method used.
     public class ControllerException extends Exception{

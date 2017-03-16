@@ -25,43 +25,14 @@ import java.nio.*;
 public class GreenhouseControls extends Controller {
     public List<Thread> threadList = new ArrayList<Thread>();
     public void addThread(Thread c) {threadList.add(c);}
-
-    public void what(){
-	while(threadList.size() > 0){
-	    for(Thread e : new ArrayList<Thread>(threadList)){
-		e.start();
-	//	System.out.println(e);
-		threadList.remove(e);
-	    }
-	}
-    }
     
-	
-        
+    
     private String eventsFile = "examples1.txt";
     private boolean powerOn = true;
     protected int errorCode = 0; 
     protected long endTime = 0;
     protected boolean windowOk = true;    
    
-    // A class that demonstrates a malfunction event. An exceptino is thrown
-    // when the action method is used.
-    public class PowerOut extends Event {
-        public PowerOut(long delayTime){
-            super(delayTime);
-            powerOn = false;
-            errorCode = 2;
-        }
-        public void action()throws ControllerException{
-            if(errorCode == 2)
-                throw new ControllerException("Power Out!!");
-        }
-	public void run(){};
-        @Override
-        public String toString(){
-            return "ErrorCode 2. Power is out!";
-        }
-    }
     // A class that fixes the errorCode. Has fix method that restores the error
     // variables and a log method that prints the fixed error and writes the fix
     // to the file 'fix.log'.
@@ -159,13 +130,24 @@ public class GreenhouseControls extends Controller {
 		try{ 
 
 	 Restart rs = new Restart(0,filename,gc); 
-         gc.addEvent(rs);
+         Thread t = new Thread(rs);
+	t.start();
+System.out.println(gc.threadList.size());
+   //      gc.addEvent(rs);
         //gc.addEvent(gc.new Restart(0, filename)); 
 	 }catch(IOException f){
          System.out.println(f);
 } 
           
          }   
+
+	while(gc.threadList.size() > 0){
+		for(Thread e : gc.threadList){
+			if(e.getState() == Thread.State.TERMINATED){ 
+				System.out.println("running");
+			}	
+		}
+	}
 
             if (option.equals("-d")) {
                 try{
@@ -176,9 +158,9 @@ public class GreenhouseControls extends Controller {
                 }
             }//end -d if 
 
-            try{ 
+     /*       try{ 
                 gc.run(0);
-		gc.what();
+//		gc.what();
             }catch(ControllerException e){
                 System.out.println(e);
                 // writes the error thrown to the file 'error.log' and
@@ -203,7 +185,7 @@ public class GreenhouseControls extends Controller {
                 }
                 gc.shutdown();
             }//end gc.run() try catch
-    
+    */
 	}catch (ArrayIndexOutOfBoundsException e) {
 	    System.out.println("Invalid number of parameters");
 	    printUsage();

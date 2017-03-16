@@ -1,11 +1,13 @@
 import tme3.*;
  public class ThermostatNight extends Event {
 	private String thermostat = "Day";
+	private long dLay = 0;
         public ThermostatNight(long delayTime) {
             super(delayTime);
+	    dLay = delayTime;
         }
 public void run(){
-//	if(System.currentTimeMillis() >= this.eventTime;
+	    sleepEvent(dLay);
 		System.out.println(this);
 		action();
 	}

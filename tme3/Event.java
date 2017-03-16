@@ -33,5 +33,29 @@ public abstract class Event implements Runnable{
     public boolean ready(long offset) {
         return System.currentTimeMillis() >= eventTime + offset;
     } 
-    public abstract void action() throws Controller.ControllerException;
+    public void sleepEvent(long dLay){
+        long start, end, slept;
+        boolean interrupted = false;
+
+        while(dLay > 0){
+            start=System.currentTimeMillis();
+            try{
+                Thread.sleep(dLay);
+                break;
+            }catch(InterruptedException e){
+                //work out how much more time to sleep for
+                end=System.currentTimeMillis();
+                slept=end-start;
+                dLay-=slept;
+                interrupted=true;
+            }
+        }
+        if(interrupted){
+            //restore interruption before exit
+            Thread.currentThread().interrupt();
+        }
+	
+    }
+    
+    public abstract void action()throws Controller.ControllerException;
 } ///:~i
